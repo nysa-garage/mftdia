@@ -44,6 +44,37 @@ const CommunityFeed = () => {
       comments: 0,
       time: "8h ago",
       replies: []
+    },
+    {
+      id: 4,
+      user: "AstoriaBound",
+      city: "New York City",
+      question: "Is Astoria a good neighborhood for young immigrant families?",
+      body: "We are moving next month and heard great things about Astoria's diversity and food scene. Any tips on which part of Astoria is best for kids?",
+      votes: 89,
+      comments: 3,
+      time: "12h ago",
+      replies: [
+        { id: 401, user: "QueensNative", time: "10h ago", text: "Yes! Astoria is amazing. Look around Ditmars Blvd if you want something a bit quieter but still very walkable." },
+        { id: 402, user: "Immigrant_99", time: "8h ago", text: "Agreed, great area. Also very close to Manhattan via the N/W lines." },
+        { id: 403, user: "MomInNYC", time: "2h ago", text: "The schools around 30th Ave are highly rated too." }
+      ]
+    },
+    {
+      id: 5,
+      user: "TechVisa23",
+      city: "New York City",
+      question: "Cheapest way to furnish a new apartment from scratch?",
+      body: "Just signed a lease but I'm completely broke. Apart from IKEA, what are the best ways to get cheap or free furniture?",
+      votes: 215,
+      comments: 4,
+      time: "1d ago",
+      replies: [
+        { id: 501, user: "FrugalMover", time: "20h ago", text: "Join your local 'Buy Nothing' group on Facebook. People give away amazing furniture for free when they move." },
+        { id: 502, user: "ThriftKing", time: "18h ago", text: "Housing Works thrift shops often have great quality pieces for decent prices." },
+        { id: 503, user: "MovingSoon_01", time: "15h ago", text: "Craigslist 'free' section, but you have to be fast and have a way to transport it." },
+        { id: 504, user: "NYC_Veteran", time: "10h ago", text: "Stooping! Follow @stoopingnyc on Instagram. You'd be surprised what people leave on the curb here." }
+      ]
     }
   ]);
 
