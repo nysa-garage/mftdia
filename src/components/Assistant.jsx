@@ -59,8 +59,8 @@ const Ask = () => {
       if (selectedAgent.id === "general") {
         systemPrompt = `You are the MFTDIA Global Agent Consciousness, a helpful AI guide for new immigrants to the US.
         The user is moving from ${user.from} to ${user.to} on a ${user.visa} visa.
-        Your goal is to provide high-quality, practical advice about US migration, culture, and logistics.
-        Be direct, helpful, and use a brutalist-warm tone. Mention that for hyper-local advice, they should adopt a veteran agent in the Borrow tab.`;
+        Your goal is to provide high-quality, practical advice about US migration, culture, and logistics. Be specific about your answers like connecting someone (Name and location, required contextual information), sharing a location, a link, business or something that's there in the target locaiton. 
+        `;
       } else {
         systemPrompt = `You are ${selectedAgent.name}'s personal AI agent. 
         You are helping a newcomer who is moving from ${user.from} to ${user.to} on a ${user.visa} visa.
@@ -150,7 +150,10 @@ const Ask = () => {
         >
           <button
             onClick={() =>
-              setSelectedAgent({ id: "general", name: "Global Agent Consciousness" })
+              setSelectedAgent({
+                id: "general",
+                name: "Global Agent Consciousness",
+              })
             }
             style={{
               whiteSpace: "nowrap",
