@@ -16,7 +16,7 @@ const Ask = () => {
   const [adoptedAgents, setAdoptedAgents] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState({
     id: "general",
-    name: "Orbit Concierge",
+    name: "Global Agent Consciousness",
     specialty: "General Navigation",
   });
   const scrollRef = useRef(null);
@@ -32,7 +32,7 @@ const Ask = () => {
       {
         role: "assistant",
         content:
-          "I'm Orbit. I can help you generally, or you can switch to one of the veteran agents you've adopted for specific 'on-the-ground' advice.",
+          "I am the MFTDIA Global Agent Consciousness. I can assist you with general knowledge, or you can switch to one of the specific veteran agents you've adopted for hyper-local, lived experience advice.",
       },
     ]);
   }, []);
@@ -57,7 +57,7 @@ const Ask = () => {
       let systemPrompt = "";
 
       if (selectedAgent.id === "general") {
-        systemPrompt = `You are the MFTDIA Orbit Concierge, a helpful AI guide for new immigrants to the US.
+        systemPrompt = `You are the MFTDIA Global Agent Consciousness, a helpful AI guide for new immigrants to the US.
         The user is moving from ${user.from} to ${user.to} on a ${user.visa} visa.
         Your goal is to provide high-quality, practical advice about US migration, culture, and logistics.
         Be direct, helpful, and use a brutalist-warm tone. Mention that for hyper-local advice, they should adopt a veteran agent in the Borrow tab.`;
@@ -150,7 +150,7 @@ const Ask = () => {
         >
           <button
             onClick={() =>
-              setSelectedAgent({ id: "general", name: "Orbit Concierge" })
+              setSelectedAgent({ id: "general", name: "Global Agent Consciousness" })
             }
             style={{
               whiteSpace: "nowrap",
@@ -165,7 +165,7 @@ const Ask = () => {
               border: "1px solid var(--text)",
             }}
           >
-            GENERAL ORBIT
+            GLOBAL AGENT
           </button>
           {adoptedAgents.map((agent) => (
             <button
