@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Calendar, Users, MessageSquare, Globe } from 'lucide-react';
+import { Calendar, Users, MessageSquare, Globe, User } from 'lucide-react';
 
 const Layout = () => {
   return (
