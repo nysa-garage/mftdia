@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY.trim(),
@@ -9,7 +9,7 @@ const openai = new OpenAI({
 
 export const generateTasks = async (onboardingData) => {
   const { to, visa } = onboardingData;
-  
+
   // Simulate network delay so the loader still shows nicely for the demo
   await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -28,7 +28,7 @@ export const generateTasks = async (onboardingData) => {
     if (day === 14) return { day, tasks: ["Receive SSN card in the mail", "Apply for a secured credit card to start building US credit history"] };
     if (day === 20) return { day, tasks: ["Research healthcare marketplace or employer insurance plans", "Select a primary care physician in your network"] };
     if (day === 30) return { day, tasks: ["Evaluate your first month budget and expenses", "Celebrate your successful first 30 days in the US!"] };
-    
+
     // Default filler for the rest
     return { day, tasks: [`Continue settling into ${to || 'your new city'}`, `Review ${visa || 'your'} visa compliance requirements`, "Explore local community events or meetups"] };
   });
