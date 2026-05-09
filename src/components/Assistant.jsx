@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, User, Bot, Sparkles } from 'lucide-react';
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY || 'sk-placeholder',
-  dangerouslyAllowBrowser: true
-});
+import openai from '../lib/openai';
 
 const Ask = () => {
   const [messages, setMessages] = useState([]);
