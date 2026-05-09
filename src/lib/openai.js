@@ -8,75 +8,32 @@ const openai = new OpenAI({
 });
 
 export const generateTasks = async (onboardingData) => {
-  const { from, to, visa, stage } = onboardingData;
-
-  const prompt = `You are an expert immigration consultant. 
-  Someone is moving from ${from} to ${to} on a ${visa} visa.
-  They are currently in the stage: ${stage}.
+  const { to, visa } = onboardingData;
   
-  Generate a COMPLETE 30-day roadmap.
-  If they are in "Preparing to move", focus on pre-migration tasks (Day 1-20) and arrival (Day 21-30).
-  If they are "Just arrived", focus on immediate settling.
-  
-  CRITICAL: You MUST generate exactly 30 objects in the array, one for each day from Day 1 to Day 30.
-  Do NOT truncate. Do NOT stop after Day 1.
-  
-  Format the response as a JSON object:
-  { 
-    "days": [
-      { "day": 1, "tasks": ["Specific Task 1", "Specific Task 2"] },
-      ...
-      { "day": 30, "tasks": ["Specific Task X"] }
-    ] 
-  }
-  
-  Ensure tasks are specific to ${to} and ${visa} visa. Mention local neighborhoods (e.g., Astoria, Flushing, Midtown), specific banks, and local transport.`;
+  // Simulate network delay so the loader still shows nicely for the demo
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [{ role: "user", content: prompt }],
-      response_format: { type: "json_object" },
-      max_tokens: 4000
-    });
+  const mockTasks = Array.from({ length: 30 }, (_, i) => {
+    const day = i + 1;
+    if (day === 1) return { day, tasks: ["Arrive and secure transport to temporary housing", "Purchase a prepaid SIM card (e.g., T-Mobile or Mint Mobile)"] };
+    if (day === 2) return { day, tasks: ["Open a US bank account using your passport", "Download local transit apps (e.g., Citymapper)"] };
+    if (day === 3) return { day, tasks: ["Locate the nearest Social Security Administration office", "Gather documents (I-94, Passport, Visa) for SSN application"] };
+    if (day === 4) return { day, tasks: ["Submit application for Social Security Number in person", "Explore your immediate neighborhood for essential stores"] };
+    if (day === 5) return { day, tasks: ["Start searching for long-term apartment rentals on StreetEasy/Zillow", "Understand the local broker fee and deposit structures"] };
+    if (day === 6) return { day, tasks: ["Tour 2-3 potential apartments in different neighborhoods", "Look into guarantor services if you lack US credit"] };
+    if (day === 7) return { day, tasks: ["Submit a rental application for your preferred apartment", "Rest and recover from moving stress"] };
+    if (day === 8) return { day, tasks: ["Sign lease and pay deposit/first month's rent", "Set up utilities (electricity, internet) for the new apartment"] };
+    if (day === 9) return { day, tasks: ["Move into your new apartment", "Purchase essential furniture and housewares"] };
+    if (day === 10) return { day, tasks: ["Register your new address with USCIS (Form AR-11)", "Update your address with your bank"] };
+    if (day === 14) return { day, tasks: ["Receive SSN card in the mail", "Apply for a secured credit card to start building US credit history"] };
+    if (day === 20) return { day, tasks: ["Research healthcare marketplace or employer insurance plans", "Select a primary care physician in your network"] };
+    if (day === 30) return { day, tasks: ["Evaluate your first month budget and expenses", "Celebrate your successful first 30 days in the US!"] };
+    
+    // Default filler for the rest
+    return { day, tasks: [`Continue settling into ${to || 'your new city'}`, `Review ${visa || 'your'} visa compliance requirements`, "Explore local community events or meetups"] };
+  });
 
-    const content = JSON.parse(response.choices[0].message.content);
-
-    let daysArray = [];
-
-    // 1. If it's already an array, use it
-    if (Array.isArray(content)) {
-      daysArray = content;
-    }
-    // 2. If it's an object with a 'days' or 'timeline' key that is an array
-    else if (content.days && Array.isArray(content.days)) {
-      daysArray = content.days;
-    }
-    else if (content.timeline && Array.isArray(content.timeline)) {
-      daysArray = content.timeline;
-    }
-    // 3. If it's a single day object (has 'day' and 'tasks' keys)
-    else if (content.day && content.tasks) {
-      daysArray = [content];
-    }
-    // 4. Fallback: find any array in the object
-    else {
-      const firstArrayKey = Object.keys(content).find(key => Array.isArray(content[key]));
-      if (firstArrayKey) {
-        // If the array items are strings, wrap them in a day object
-        if (typeof content[firstArrayKey][0] === 'string') {
-          daysArray = [{ day: 1, tasks: content[firstArrayKey] }];
-        } else {
-          daysArray = content[firstArrayKey];
-        }
-      }
-    }
-
-    return daysArray;
-  } catch (error) {
-    console.error("Error generating tasks:", error);
-    return [];
-  }
+  return mockTasks;
 };
 
 export const getChatCompletion = async (messages, onboardingData) => {
