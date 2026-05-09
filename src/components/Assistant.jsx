@@ -4,7 +4,7 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey:
-    "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",
+    "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",
   baseURL: "https://api.openai.com/v1",
   dangerouslyAllowBrowser: true,
 });
