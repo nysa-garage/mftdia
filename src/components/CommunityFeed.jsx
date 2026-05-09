@@ -187,11 +187,12 @@ const CommunityFeed = () => {
   }
 
   return (
-    <div className="animate-fade-in" style={{ position: 'relative', minHeight: '100%' }}>
-      <div style={{ backgroundColor: 'var(--accent)', padding: '1rem', marginBottom: '1.5rem', borderBottom: 'var(--border-width) solid var(--primary)' }}>
-        <h2 style={{ color: 'var(--primary)', fontSize: '1.5rem' }}>COMMUNITY FEED</h2>
-        <p style={{ fontWeight: 900, color: 'var(--text)', fontSize: '0.8rem' }}>TRENDING IN {city.toUpperCase()}</p>
-      </div>
+    <>
+      <div className="animate-fade-in" style={{ position: 'relative', minHeight: '100%' }}>
+        <div style={{ backgroundColor: 'var(--accent)', padding: '1rem', marginBottom: '1.5rem', borderBottom: 'var(--border-width) solid var(--primary)' }}>
+          <h2 style={{ color: 'var(--primary)', fontSize: '1.5rem' }}>COMMUNITY FEED</h2>
+          <p style={{ fontWeight: 900, color: 'var(--text)', fontSize: '0.8rem' }}>TRENDING IN {city.toUpperCase()}</p>
+        </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {posts.map(post => (
@@ -223,28 +224,29 @@ const CommunityFeed = () => {
           </div>
         ))}
       </div>
-
-      <button 
-        onClick={() => setIsAdding(true)}
-        style={{
-          position: 'fixed',
-          bottom: '90px',
-          right: '20px',
-          width: '60px',
-          height: '60px',
-          borderRadius: '0',
-          backgroundColor: 'var(--primary)',
-          color: 'var(--bg)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '4px 4px 0px var(--text)',
-          zIndex: 10
-        }}
-      >
-        <Plus size={32} strokeWidth={3} />
-      </button>
     </div>
+
+    <button 
+      onClick={() => setIsAdding(true)}
+      style={{
+        position: 'absolute',
+        bottom: '90px',
+        right: '20px',
+        width: '60px',
+        height: '60px',
+        borderRadius: '0',
+        backgroundColor: 'var(--primary)',
+        color: 'var(--bg)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '4px 4px 0px var(--text)',
+        zIndex: 10
+      }}
+    >
+      <Plus size={32} strokeWidth={3} />
+    </button>
+  </>
   );
 };
 
