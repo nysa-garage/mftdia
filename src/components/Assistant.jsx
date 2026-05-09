@@ -61,7 +61,7 @@ const Ask = () => {
         2. Be extremely specific. Mention actual places, services, or shortcuts ${selectedAgent.name} knows.
         3. Keep the tone helpful, direct, and slightly brutalist-warm.`;
       }
-
+      console.log("Using API Key starting with:", openai.apiKey?.substring(0, 7));
       const response = await openai.chat.completions.create({
         model: "gpt-4o",
         messages: [
