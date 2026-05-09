@@ -68,7 +68,7 @@ const Ask = () => {
       }
       console.log("Using API Key starting with:", openai.apiKey?.substring(0, 7));
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: systemPrompt },
           ...messages,
