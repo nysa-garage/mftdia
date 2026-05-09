@@ -3,8 +3,9 @@ import { Send, User, Bot, Sparkles } from "lucide-react";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: "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",
-  baseURL: "https://api.allorigins.win/raw?url=https://api.openai.com/v1",
+  apiKey:
+    "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",
+  baseURL: "https://api.openai.com/v1",
   dangerouslyAllowBrowser: true,
 });
 

@@ -1,10 +1,10 @@
 import OpenAI from 'openai';
 
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY.trim(),
-  dangerouslyAllowBrowser: true 
+  dangerouslyAllowBrowser: true
 });
 
 export const generateTasks = async (onboardingData) => {
@@ -41,17 +41,17 @@ export const generateTasks = async (onboardingData) => {
     });
 
     const content = JSON.parse(response.choices[0].message.content);
-    
+
     let daysArray = [];
 
     // 1. If it's already an array, use it
     if (Array.isArray(content)) {
       daysArray = content;
-    } 
+    }
     // 2. If it's an object with a 'days' or 'timeline' key that is an array
     else if (content.days && Array.isArray(content.days)) {
       daysArray = content.days;
-    } 
+    }
     else if (content.timeline && Array.isArray(content.timeline)) {
       daysArray = content.timeline;
     }
