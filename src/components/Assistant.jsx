@@ -78,14 +78,27 @@ const Ask = () => {
         "Using API Key starting with:",
         openai.apiKey?.substring(0, 7),
       );
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages,
-          userMsg,
-        ],
-      });
+      let response;
+      let retries = 3;
+      
+      while (retries > 0) {
+        try {
+          response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [
+              { role: "system", content: systemPrompt },
+              ...messages,
+              userMsg,
+            ],
+          });
+          break; // Success, break out of loop
+        } catch (err) {
+          console.log(`API call failed. Retrying... (${retries} retries left)`);
+          retries--;
+          if (retries === 0) throw err;
+          await new Promise(resolve => setTimeout(resolve, 1500)); // wait 1.5s before retry
+        }
+      }
 
       setMessages((prev) => [
         ...prev,
@@ -96,15 +109,11 @@ const Ask = () => {
       ]);
     } catch (error) {
       console.error("Chat error:", error);
-      const errorMsg =
-        error?.response?.data?.error?.message ||
-        error?.message ||
-        "Connection error";
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: `ERROR: ${errorMsg}. Please verify your API key in src/lib/openai.js.`,
+          content: `I'm having trouble connecting right now, let me gather my thoughts. Please try asking again in a moment.`,
         },
       ]);
     } finally {
