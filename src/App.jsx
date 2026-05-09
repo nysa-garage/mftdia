@@ -6,6 +6,7 @@ import Borrow from './components/Network';
 import Ask from './components/Assistant';
 import Onboarding from './components/Onboarding';
 import CommunityFeed from './components/CommunityFeed';
+import Profile from './components/Profile';
 import { generateTasks } from './lib/openai';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="feed" element={<CommunityFeed />} />
           <Route path="network" element={<Borrow />} />
           <Route path="assistant" element={<Ask />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
@@ -69,3 +71,4 @@ function App() {
 }
 
 export default App;
+
