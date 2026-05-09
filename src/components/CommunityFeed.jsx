@@ -14,8 +14,12 @@ const CommunityFeed = () => {
       question: "What's the best way to get a lease without an SSN in Queens?",
       body: "I just moved here and everywhere I look requires a 700+ credit score and an SSN. I only have an ITIN and some foreign credit. Any landlords or agencies that are more lenient?",
       votes: 156,
-      comments: 24,
-      time: "2h ago"
+      comments: 2,
+      time: "2h ago",
+      replies: [
+        { id: 101, user: "QueensNative", time: "1h ago", text: "Try looking for private landlords on Craigslist or Facebook Marketplace, they are usually more flexible and might just ask for proof of income and a larger deposit." },
+        { id: 102, user: "VisaExpert_NYC", time: "45m ago", text: "Also look into guarantor services like Rhino or The Guarantors. They act as your co-signer for a fee if you don't have US credit." }
+      ]
     },
     {
       id: 2,
@@ -24,8 +28,11 @@ const CommunityFeed = () => {
       question: "Anyone have recommendations for health insurance for new arrivals on O-1?",
       body: "Trying to figure out the marketplace vs private insurance. It's so confusing.",
       votes: 42,
-      comments: 12,
-      time: "5h ago"
+      comments: 1,
+      time: "5h ago",
+      replies: [
+        { id: 201, user: "FreelanceLife", time: "2h ago", text: "If you're on O-1, definitely check the ACA (Obamacare) marketplace. You might qualify for subsidies depending on your income projection." }
+      ]
     },
     {
       id: 3,
@@ -34,8 +41,9 @@ const CommunityFeed = () => {
       question: "Pro tip: You can use your passport and foreign credit history to open an account at some HSBC branches.",
       body: "Just wanted to share this because it saved me weeks of headache.",
       votes: 312,
-      comments: 56,
-      time: "8h ago"
+      comments: 0,
+      time: "8h ago",
+      replies: []
     }
   ]);
 
@@ -56,7 +64,8 @@ const CommunityFeed = () => {
       body: "",
       votes: 1,
       comments: 0,
-      time: "Just now"
+      time: "Just now",
+      replies: []
     };
     
     setPosts([newPost, ...posts]);
@@ -74,7 +83,7 @@ const CommunityFeed = () => {
           <X size={16} /> BACK TO FEED
         </button>
         
-        <div className="card">
+        <div className="card" style={{ marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: 900, marginBottom: '1rem', opacity: 0.7 }}>
             <span>u/{selectedPost.user}</span>
             <span>{selectedPost.time}</span>
@@ -90,9 +99,28 @@ const CommunityFeed = () => {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <MessageCircle size={24} />
-              <span style={{ fontWeight: 900 }}>{selectedPost.comments} Comments</span>
+              <span style={{ fontWeight: 900 }}>{selectedPost.comments}</span>
             </div>
           </div>
+        </div>
+
+        <div>
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--primary)' }}>COMMENTS</h3>
+          {selectedPost.replies && selectedPost.replies.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {selectedPost.replies.map(reply => (
+                <div key={reply.id} className="card" style={{ padding: '1rem', backgroundColor: '#1A1A1A' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', fontWeight: 900, marginBottom: '0.5rem', opacity: 0.7 }}>
+                    <span>u/{reply.user}</span>
+                    <span>{reply.time}</span>
+                  </div>
+                  <p style={{ fontWeight: 700, lineHeight: 1.4 }}>{reply.text}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p style={{ fontWeight: 900, opacity: 0.7, fontStyle: 'italic' }}>No comments yet. Be the first to reply!</p>
+          )}
         </div>
       </div>
     );
