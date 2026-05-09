@@ -1,10 +1,10 @@
 import OpenAI from 'openai';
 
-const OPENAI_API_KEY = "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"; // USER: Drop your key here
+const OPENAI_API_KEY = "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";
 
 const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true // Required for client-side demo
+  apiKey: OPENAI_API_KEY.trim(),
+  dangerouslyAllowBrowser: true 
 });
 
 export const generateTasks = async (onboardingData) => {
