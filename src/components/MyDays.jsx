@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
-const MyDays = ({ days = [] }) => {
+const MyDays = ({ days = [], isGenerating }) => {
   const [completedTasks, setCompletedTasks] = useState({});
 
   useEffect(() => {
@@ -17,17 +18,22 @@ const MyDays = ({ days = [] }) => {
     localStorage.setItem('mftdia_progress', JSON.stringify(newProgress));
   };
 
-  if (days.length === 0) {
+  if (isGenerating || days.length === 0) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center', height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h2 style={{ color: 'var(--primary)', marginBottom: '2rem' }}>GENERATING YOUR JOURNEY...</h2>
-        <p style={{ marginBottom: '2rem' }}>This usually takes 10-15 seconds. If it's been longer, there might be an API issue.</p>
-        <button 
-          onClick={() => { localStorage.clear(); window.location.reload(); }}
-          style={{ backgroundColor: 'transparent', border: '1px solid var(--text)' }}
-        >
-          RESET & TRY AGAIN
-        </button>
+      <div className="animate-fade-in" style={{ padding: '2rem', textAlign: 'center', height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Loader2 size={64} className="animate-spin" style={{ color: 'var(--primary)', marginBottom: '2rem' }} />
+        <h2 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.5rem' }}>BUILDING YOUR BLUEPRINT...</h2>
+        <p style={{ marginBottom: '2rem', maxWidth: '400px', opacity: 0.8, lineHeight: 1.5 }}>
+          Our veteran agents are piecing together your first 30 days. This can take about 15-20 seconds.
+        </p>
+        {!isGenerating && days.length === 0 && (
+          <button 
+            onClick={() => { localStorage.clear(); window.location.reload(); }}
+            style={{ backgroundColor: 'transparent', border: '1px solid var(--text)', padding: '0.5rem 1rem' }}
+          >
+            STUCK? RESET & START OVER
+          </button>
+        )}
       </div>
     );
   }

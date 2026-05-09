@@ -12,30 +12,39 @@ function App() {
   const [user, setUser] = useState(null);
   const [days, setDays] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('mftdia_user');
     const savedDays = localStorage.getItem('mftdia_days');
     
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    if (savedDays) {
-      setDays(JSON.parse(savedDays));
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+      if (savedDays) {
+        setDays(JSON.parse(savedDays));
+      } else {
+        // If we have a user but no days, try generating them again
+        handleGenerate(parsedUser);
+      }
     }
     setLoading(false);
   }, []);
 
-  const handleOnboardingComplete = async (userData) => {
-    setUser(userData);
-    localStorage.setItem('mftdia_user', JSON.stringify(userData));
-    
-    // Generate tasks
+  const handleGenerate = async (userData) => {
+    setIsGenerating(true);
     const generatedTasks = await generateTasks(userData);
-    if (generatedTasks && Array.isArray(generatedTasks)) {
+    if (generatedTasks && Array.isArray(generatedTasks) && generatedTasks.length > 0) {
       setDays(generatedTasks);
       localStorage.setItem('mftdia_days', JSON.stringify(generatedTasks));
     }
+    setIsGenerating(false);
+  };
+
+  const handleOnboardingComplete = async (userData) => {
+    setUser(userData);
+    localStorage.setItem('mftdia_user', JSON.stringify(userData));
+    await handleGenerate(userData);
   };
 
   if (loading) return null;
@@ -48,7 +57,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<MyDays days={days} />} />
+          <Route index element={<MyDays days={days} isGenerating={isGenerating} />} />
           <Route path="feed" element={<CommunityFeed />} />
           <Route path="network" element={<Borrow />} />
           <Route path="assistant" element={<Ask />} />
