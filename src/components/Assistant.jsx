@@ -12,7 +12,7 @@ const Ask = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [adoptedAgents, setAdoptedAgents] = useState([]);
-  const [selectedAgent, setSelectedAgent] = useState(null);
+  const [selectedAgent, setSelectedAgent] = useState({ id: 'general', name: 'Orbit Concierge', specialty: 'General Navigation' });
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -20,12 +20,11 @@ const Ask = () => {
     if (saved) {
       const parsed = JSON.parse(saved);
       setAdoptedAgents(parsed);
-      if (parsed.length > 0) setSelectedAgent(parsed[0]);
     }
     
     setMessages([{ 
       role: 'assistant', 
-      content: "I'm ready. Which veteran's knowledge should I use today?" 
+      content: "I'm Orbit. I can help you generally, or you can switch to one of the veteran agents you've adopted for specific 'on-the-ground' advice." 
     }]);
   }, []);
 
@@ -36,7 +35,7 @@ const Ask = () => {
   }, [messages]);
 
   const handleSend = async () => {
-    if (!input.trim() || !selectedAgent) return;
+    if (!input.trim()) return;
     
     const userMsg = { role: 'user', content: input };
     setMessages(prev => [...prev, userMsg]);
@@ -46,19 +45,27 @@ const Ask = () => {
     try {
       const user = JSON.parse(localStorage.getItem('mftdia_user') || '{}');
       
-      const systemPrompt = `You are ${selectedAgent.name}'s personal AI agent. 
-      You are helping a newcomer who is moving from ${user.from} to ${user.to} on a ${user.visa} visa.
+      let systemPrompt = '';
       
-      YOUR KNOWLEDGE BASE (Lived Experience):
-      - Specialty: ${selectedAgent.specialty}
-      - Core Advice: ${selectedAgent.description}
-      - Location: ${selectedAgent.location}
-      
-      RULES:
-      1. Always speak as ${selectedAgent.name}'s proxy. Use "I" to refer to ${selectedAgent.name}'s experiences.
-      2. Be extremely specific. Mention actual places, services, or shortcuts ${selectedAgent.name} knows.
-      3. If asked about something outside your specialty, give a brief answer but pivot back to your core expertise.
-      4. Keep the tone helpful, direct, and slightly brutalist-warm.`;
+      if (selectedAgent.id === 'general') {
+        systemPrompt = `You are the MFTDIA Orbit Concierge, a helpful AI guide for new immigrants to the US.
+        The user is moving from ${user.from} to ${user.to} on a ${user.visa} visa.
+        Your goal is to provide high-quality, practical advice about US migration, culture, and logistics.
+        Be direct, helpful, and use a brutalist-warm tone. Mention that for hyper-local advice, they should adopt a veteran agent in the Borrow tab.`;
+      } else {
+        systemPrompt = `You are ${selectedAgent.name}'s personal AI agent. 
+        You are helping a newcomer who is moving from ${user.from} to ${user.to} on a ${user.visa} visa.
+        
+        YOUR KNOWLEDGE BASE (Lived Experience):
+        - Specialty: ${selectedAgent.specialty}
+        - Core Advice: ${selectedAgent.description}
+        - Location: ${selectedAgent.location}
+        
+        RULES:
+        1. Always speak as ${selectedAgent.name}'s proxy. Use "I" to refer to ${selectedAgent.name}'s experiences.
+        2. Be extremely specific. Mention actual places, services, or shortcuts ${selectedAgent.name} knows.
+        3. Keep the tone helpful, direct, and slightly brutalist-warm.`;
+      }
 
       const response = await openai.chat.completions.create({
         model: "gpt-4o",
@@ -87,26 +94,35 @@ const Ask = () => {
       <div style={{ marginBottom: '1rem', borderBottom: 'var(--border-width) solid var(--text)', paddingBottom: '1rem' }}>
         <p style={{ fontSize: '0.7rem', fontWeight: 900, marginBottom: '0.5rem', opacity: 0.7 }}>CHATTING WITH:</p>
         <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
-          {adoptedAgents.length === 0 ? (
-            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--primary)' }}>NO AGENTS ADOPTED YET. GO TO 'BORROW' TAB.</p>
-          ) : (
-            adoptedAgents.map(agent => (
-              <button 
-                key={agent.id}
-                onClick={() => setSelectedAgent(agent)}
-                style={{ 
-                  whiteSpace: 'nowrap', 
-                  fontSize: '0.7rem', 
-                  padding: '0.4rem 0.8rem',
-                  backgroundColor: selectedAgent?.id === agent.id ? 'var(--primary)' : 'transparent',
-                  color: selectedAgent?.id === agent.id ? 'var(--bg)' : 'var(--text)',
-                  border: '1px solid var(--text)'
-                }}
-              >
-                {agent.name.toUpperCase()}'S AGENT
-              </button>
-            ))
-          )}
+          <button 
+            onClick={() => setSelectedAgent({ id: 'general', name: 'Orbit Concierge' })}
+            style={{ 
+              whiteSpace: 'nowrap', 
+              fontSize: '0.7rem', 
+              padding: '0.4rem 0.8rem',
+              backgroundColor: selectedAgent?.id === 'general' ? 'var(--primary)' : 'transparent',
+              color: selectedAgent?.id === 'general' ? 'var(--bg)' : 'var(--text)',
+              border: '1px solid var(--text)'
+            }}
+          >
+            GENERAL ORBIT
+          </button>
+          {adoptedAgents.map(agent => (
+            <button 
+              key={agent.id}
+              onClick={() => setSelectedAgent(agent)}
+              style={{ 
+                whiteSpace: 'nowrap', 
+                fontSize: '0.7rem', 
+                padding: '0.4rem 0.8rem',
+                backgroundColor: selectedAgent?.id === agent.id ? 'var(--primary)' : 'transparent',
+                color: selectedAgent?.id === agent.id ? 'var(--bg)' : 'var(--text)',
+                border: '1px solid var(--text)'
+              }}
+            >
+              {agent.name.toUpperCase()}'S AGENT
+            </button>
+          ))}
         </div>
       </div>
 
