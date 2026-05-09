@@ -3,8 +3,7 @@ import { Send, User, Bot, Sparkles } from "lucide-react";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey:
-    "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",
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   baseURL: "https://api.openai.com/v1",
   dangerouslyAllowBrowser: true,
 });
