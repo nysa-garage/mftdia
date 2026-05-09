@@ -77,7 +77,8 @@ const Ask = () => {
       }]);
     } catch (error) {
       console.error("Chat error:", error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, my brain stalled. Check your API key or try again." }]);
+      const errorMsg = error?.response?.data?.error?.message || error?.message || "Connection error";
+      setMessages(prev => [...prev, { role: 'assistant', content: `ERROR: ${errorMsg}. Please verify your API key in src/lib/openai.js.` }]);
     } finally {
       setLoading(false);
     }
