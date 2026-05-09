@@ -31,6 +31,33 @@ const Borrow = () => {
       specialty: "Education & Schools",
       description: "How to navigate the NYC public school system for new arrivals. My agent knows the best bilingual programs.",
       vouches: 212
+    },
+    {
+      id: 'maria_brooklyn',
+      name: "Maria",
+      location: "Williamsburg, Brooklyn",
+      arrival: "4 years ago",
+      specialty: "Freelance Visas & Networking",
+      description: "Navigating the O-1 visa as a creative. My agent knows the best coworking spaces, tax strategies for freelancers, and networking events.",
+      vouches: 341
+    },
+    {
+      id: 'chen_midtown',
+      name: "Chen",
+      location: "Midtown, Manhattan",
+      arrival: "1 year ago",
+      specialty: "Healthcare & Insurance",
+      description: "I spent 3 months figuring out the US healthcare system. My agent can explain deductibles, copays, and how to find in-network doctors.",
+      vouches: 156
+    },
+    {
+      id: 'david_nj',
+      name: "David",
+      location: "Hoboken, NJ",
+      arrival: "5 years ago",
+      specialty: "Commuting & DMV Hacks",
+      description: "Converting your foreign driver's license and the fastest PATH train routes. My agent has the NJ MVC appointment system figured out.",
+      vouches: 288
     }
   ];
 
